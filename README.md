@@ -8,15 +8,13 @@
 
 ## 조 정보
 
-- **조 이름**: AI ##조
-- **팀원**: (이름 / 역할)
-  - 팀원 1 — 기획·문서
-  - 팀원 2 — 목록·상세 페이지
-  - 팀원 3 — 등록·수정 페이지
-  - 팀원 4 — OpenAI 연동
-  - 팀원 5 — 발표·README
-
-> 위 내용은 양식입니다. 실제 조 이름·이름·역할로 수정해주세요.
+- **조 이름**: AI 23조
+- **팀원**: 
+  - 편진솔 — PM·기획
+  - 유정환 — UI·레이아웃·스타일링·QA
+  - 이제혁 — CRUD 연동
+  - 이소은 — OpenAI 연동
+  - 김주형 — 발표·문서
 
 ---
 
@@ -27,11 +25,6 @@
 | 1일차 | M1·M2 | 기획·설계, Vite 프로젝트 세팅, Mock UI |
 | 2일차 | M3·M4 | json-server CRUD 연동, 폼 유효성 |
 | 3일차 | M5·M6 | OpenAI 표지 생성, 발표 자료 |
-
-### 최종 산출물 (3일차 제출)
-- `AI_##조.zip` — 전체 소스 코드 (`node_modules/` 제외)
-- `AI_##조.pptx` — 발표 자료
-- `README.md` — 본 문서
 
 ---
 
@@ -141,7 +134,7 @@ npm run preview     # 빌드 결과 미리보기
 ```
 
 ### `db.json`
-- 시드 도서 5권 (`/books`)
+- 시드 도서 (`/books`)
 
 ---
 
@@ -156,18 +149,6 @@ npm run preview     # 빌드 결과 미리보기
 | POST | `/books` | 신규 등록 |
 | PATCH | `/books/:id` | 부분 수정 |
 | DELETE | `/books/:id` | 삭제 |
-
-### OpenAI Images API (3일차)
-
-```
-POST https://api.openai.com/v1/images/generations
-Authorization: Bearer {userApiKey}
-Content-Type: application/json
-```
-
-응답 `data[0].b64_json` → Data URL 변환 → `PATCH /books/:id`로 저장.
-
----
 
 ## 폴더 구조
 
@@ -193,20 +174,3 @@ my-app/
         ├── BookCreatePage.jsx
         └── BookEditPage.jsx
 ```
-
----
-
-## 보안 주의사항
-
-- API Key는 화면 입력창에서 받아 **컴포넌트 state로만** 사용
-- API Key 하드코딩 금지
-- API Key를 `.env`에 저장 후 커밋 금지 (Vite는 `VITE_` prefix 환경변수가 빌드에 포함되어 GitHub에 노출됨)
-- API Key를 `localStorage`에 저장 금지
-
----
-
-## 참고
-
-- [json-server v0.17 README](https://github.com/typicode/json-server/tree/v0.17.4)
-- [React Router v7 docs](https://reactrouter.com)
-- [OpenAI Images API](https://platform.openai.com/docs/api-reference/images)
