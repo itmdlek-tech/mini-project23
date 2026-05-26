@@ -7,6 +7,7 @@ function BookListPage() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태 추가
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -24,6 +25,12 @@ function BookListPage() {
     fetchBooks();
   }, []);
 
+  // 검색어에 따른 필터링 처리 (심화 과정)
+  const filteredBooks = books.filter(book => 
+    book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    book.author.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="page">
       <div className="page-head">
@@ -32,6 +39,18 @@ function BookListPage() {
           + 신규 등록
         </button>
       </div>
+
+      {/* 검색 바 UI 추가 */}
+      {!loading && !error && books.length > 0 && (
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="도서 제목이나 작가명으로 검색해보세요"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+      )}
 
       {loading && <div style={{ padding: 40, textAlign: 'center', color: '#888' }}>불러오는 중...</div>}
 
@@ -48,9 +67,14 @@ function BookListPage() {
         <div style={{ padding: 40, textAlign: 'center', color: '#888' }}>등록된 도서가 없습니다.</div>
       )}
 
-      {!loading && !error && books.length > 0 && (
+      {/* 검색 결과가 없을 때의 처리 */}
+      {!loading && !error && books.length > 0 && filteredBooks.length === 0 && (
+        <div style={{ padding: 40, textAlign: 'center', color: '#888' }}>검색 결과가 없습니다.</div>
+      )}
+
+      {!loading && !error && filteredBooks.length > 0 && (
         <div className="book-grid">
-          {books.map((book) => (
+          {filteredBooks.map((book) => (
             <Link to={`/books/${book.id}`} key={book.id} className="book-card">
               <div className="book-cover">
                 {book.coverImageUrl ? (

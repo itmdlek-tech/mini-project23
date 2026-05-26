@@ -7,6 +7,8 @@ function BookEditPage() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({ title: '', author: '', content: '' });
+  const [errors, setErrors] = useState({}); // 유효성 검사 에러 상태
+  
   const [apiKey, setApiKey] = useState('');
   const [quality, setQuality] = useState('MEDIUM');
   const [coverImage, setCoverImage] = useState('');
@@ -38,17 +40,34 @@ function BookEditPage() {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: '' });
+    }
   };
 
   const handleGenerate = () => {
     alert('AI 표지 재생성은 3일차 미션 (M5)에서 구현됩니다');
   };
 
+  // 폼 유효성 검사 함수
+  const validateForm = () => {
+    const newErrors = {};
+    if (!form.title.trim()) newErrors.title = '제목을 입력해주세요.';
+    else if (form.title.length > 50) newErrors.title = '제목은 50자 이내로 입력해주세요.';
+
+    if (!form.author.trim()) newErrors.author = '작가를 입력해주세요.';
+    else if (form.author.length > 20) newErrors.author = '작가는 20자 이내로 입력해주세요.';
+
+    if (!form.content.trim()) newErrors.content = '내용을 입력해주세요.';
+    else if (form.content.length < 10) newErrors.content = '내용은 최소 10자 이상 상세히 입력해주세요.';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async () => {
-    if (!form.title.trim() || !form.author.trim() || !form.content.trim()) {
-      alert('모든 필수 항목을 입력해주세요');
-      return;
-    }
+    if (!validateForm()) return; // 유효성 검사 실패 시 중단
+
     try {
       setSubmitting(true);
       await updateBook(id, {
@@ -92,21 +111,39 @@ function BookEditPage() {
             <label>
               제목<span className="required">*</span>
             </label>
-            <input name="title" value={form.title} onChange={handleChange} />
+            <input 
+              name="title" 
+              value={form.title} 
+              onChange={handleChange} 
+              className={errors.title ? 'input-error' : ''}
+            />
+            {errors.title && <div className="error-msg">{errors.title}</div>}
           </div>
 
           <div className="form-group">
             <label>
               작가<span className="required">*</span>
             </label>
-            <input name="author" value={form.author} onChange={handleChange} />
+            <input 
+              name="author" 
+              value={form.author} 
+              onChange={handleChange} 
+              className={errors.author ? 'input-error' : ''}
+            />
+            {errors.author && <div className="error-msg">{errors.author}</div>}
           </div>
 
           <div className="form-group">
             <label>
               내용<span className="required">*</span>
             </label>
-            <textarea name="content" value={form.content} onChange={handleChange} />
+            <textarea 
+              name="content" 
+              value={form.content} 
+              onChange={handleChange} 
+              className={errors.content ? 'input-error' : ''}
+            />
+            {errors.content && <div className="error-msg">{errors.content}</div>}
           </div>
 
           <div className="ai-section">

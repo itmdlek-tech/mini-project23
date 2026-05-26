@@ -11,6 +11,7 @@ function BookCreatePage() {
     content: '',
   });
 
+  const [errors, setErrors] = useState({}); // 유효성 검사 에러 상태 추가
   const [apiKey, setApiKey] = useState('');
   const [quality, setQuality] = useState('MEDIUM');
   const [coverImage, setCoverImage] = useState('');
@@ -18,17 +19,35 @@ function BookCreatePage() {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    // 사용자가 입력하면 해당 필드의 에러 메시지 제거
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: '' });
+    }
   };
 
   const handleGenerate = () => {
     alert('AI 표지 생성은 3일차 미션 (M5)에서 구현됩니다');
   };
 
+  // 폼 유효성 검사 함수 (심화 과정)
+  const validateForm = () => {
+    const newErrors = {};
+    if (!form.title.trim()) newErrors.title = '제목을 입력해주세요.';
+    else if (form.title.length > 50) newErrors.title = '제목은 50자 이내로 입력해주세요.';
+
+    if (!form.author.trim()) newErrors.author = '작가를 입력해주세요.';
+    else if (form.author.length > 20) newErrors.author = '작가는 20자 이내로 입력해주세요.';
+
+    if (!form.content.trim()) newErrors.content = '내용을 입력해주세요.';
+    else if (form.content.length < 10) newErrors.content = '내용은 최소 10자 이상 상세히 입력해주세요.';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async () => {
-    if (!form.title.trim() || !form.author.trim() || !form.content.trim()) {
-      alert('모든 필수 항목을 입력해주세요');
-      return;
-    }
+    if (!validateForm()) return; // 유효성 검사 실패 시 중단
+
     try {
       setSubmitting(true);
       const created = await createBook({
@@ -64,8 +83,13 @@ function BookCreatePage() {
               value={form.title}
               onChange={handleChange}
               placeholder="예) 별빛 아래의 서점"
+              className={errors.title ? 'input-error' : ''}
             />
-            <div className="form-help">공백만 입력 불가</div>
+            {errors.title ? (
+              <div className="error-msg">{errors.title}</div>
+            ) : (
+              <div className="form-help">공백만 입력 불가, 최대 50자</div>
+            )}
           </div>
 
           <div className="form-group">
@@ -77,7 +101,9 @@ function BookCreatePage() {
               value={form.author}
               onChange={handleChange}
               placeholder="예) 홍길동"
+              className={errors.author ? 'input-error' : ''}
             />
+            {errors.author && <div className="error-msg">{errors.author}</div>}
           </div>
 
           <div className="form-group">
@@ -89,8 +115,13 @@ function BookCreatePage() {
               value={form.content}
               onChange={handleChange}
               placeholder="책 내용을 입력하세요. AI 표지 생성에 활용됩니다."
+              className={errors.content ? 'input-error' : ''}
             />
-            <div className="form-help">2~4문장 권장 (AI 표지 품질에 영향)</div>
+            {errors.content ? (
+              <div className="error-msg">{errors.content}</div>
+            ) : (
+              <div className="form-help">최소 10자 이상, 2~4문장 권장 (AI 표지 품질에 영향)</div>
+            )}
           </div>
 
           <div className="ai-section">
