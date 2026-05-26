@@ -173,4 +173,8 @@ my-app/
         ├── BookDetailPage.jsx
         ├── BookCreatePage.jsx
         └── BookEditPage.jsx
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> c3fb7cccfd751d4e5d023bd6b97e2c0b2828c283
