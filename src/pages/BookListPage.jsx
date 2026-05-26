@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getBooks } from '../api/books';
 import { CATEGORIES } from '../constants';
+import bannerImage from "../assets/banner.png";
+
+
 
 function BookListPage() {
   const navigate = useNavigate();
@@ -41,6 +44,11 @@ function BookListPage() {
 
   return (
     <div className="page">
+        <div className="hero-banner">
+          <img src={bannerImage} alt="Hero Banner" />
+        </div>
+
+
       <div className="page-head">
         <h1>도서 목록</h1>
         <button className="btn btn-primary" onClick={() => navigate('/books/new')}>
