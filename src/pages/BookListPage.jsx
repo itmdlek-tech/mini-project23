@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getBooks } from '../api/books';
+import { CATEGORIES } from '../constants';
 
 function BookListPage() {
   const navigate = useNavigate();
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태 추가
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('전체');
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -25,11 +27,14 @@ function BookListPage() {
     fetchBooks();
   }, []);
 
-  // 검색어에 따른 필터링 처리 (심화 과정)
-  const filteredBooks = books.filter(book => 
-    book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    book.author.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredBooks = books.filter((book) => {
+    const matchesSearch =
+      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === '전체' || book.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="page">
@@ -40,7 +45,6 @@ function BookListPage() {
         </button>
       </div>
 
-      {/* 검색 바 UI 추가 */}
       {!loading && !error && books.length > 0 && (
         <div className="search-bar">
           <input
@@ -49,6 +53,16 @@ function BookListPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          <select
+            className="category-filter"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="전체">전체 카테고리</option>
+            {CATEGORIES.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
         </div>
       )}
 
@@ -67,7 +81,6 @@ function BookListPage() {
         <div style={{ padding: 40, textAlign: 'center', color: '#888' }}>등록된 도서가 없습니다.</div>
       )}
 
-      {/* 검색 결과가 없을 때의 처리 */}
       {!loading && !error && books.length > 0 && filteredBooks.length === 0 && (
         <div style={{ padding: 40, textAlign: 'center', color: '#888' }}>검색 결과가 없습니다.</div>
       )}
@@ -83,6 +96,9 @@ function BookListPage() {
                   <span>표지 없음<br />(생성 전)</span>
                 )}
               </div>
+              {book.category && (
+                <div className="category-badge">{book.category}</div>
+              )}
               <div className="book-title">{book.title}</div>
               <div className="book-meta">
                 {book.author} · {new Date(book.createdAt).toLocaleDateString('ko-KR')}

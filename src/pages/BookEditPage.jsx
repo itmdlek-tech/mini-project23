@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { getBook, updateBook } from '../api/books';
+import { CATEGORIES, DEFAULT_CATEGORY } from '../constants';
 
 function BookEditPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({ title: '', author: '', content: '' });
+  const [form, setForm] = useState({ title: '', author: '', content: '', category: DEFAULT_CATEGORY });
   const [errors, setErrors] = useState({}); // 유효성 검사 에러 상태
   
   const [apiKey, setApiKey] = useState('');
@@ -26,6 +27,7 @@ function BookEditPage() {
           title: data.title,
           author: data.author,
           content: data.content,
+          category: data.category || DEFAULT_CATEGORY,
         });
         setCoverImage(data.coverImageUrl || '');
         setError('');
@@ -74,6 +76,7 @@ function BookEditPage() {
         title: form.title.trim(),
         author: form.author.trim(),
         content: form.content.trim(),
+        category: form.category,
         coverImageUrl: coverImage,
       });
       alert('수정되었습니다.');
@@ -135,12 +138,27 @@ function BookEditPage() {
 
           <div className="form-group">
             <label>
+              카테고리<span className="required">*</span>
+            </label>
+            <select
+              name="category"
+              value={form.category}
+              onChange={handleChange}
+            >
+              {CATEGORIES.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>
               내용<span className="required">*</span>
             </label>
-            <textarea 
-              name="content" 
-              value={form.content} 
-              onChange={handleChange} 
+            <textarea
+              name="content"
+              value={form.content}
+              onChange={handleChange}
               className={errors.content ? 'input-error' : ''}
             />
             {errors.content && <div className="error-msg">{errors.content}</div>}

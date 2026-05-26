@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createBook } from '../api/books';
+import { CATEGORIES, DEFAULT_CATEGORY } from '../constants';
 
 function BookCreatePage() {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ function BookCreatePage() {
     title: '',
     author: '',
     content: '',
+    category: DEFAULT_CATEGORY,
   });
 
   const [errors, setErrors] = useState({}); // 유효성 검사 에러 상태 추가
@@ -54,6 +56,7 @@ function BookCreatePage() {
         title: form.title.trim(),
         author: form.author.trim(),
         content: form.content.trim(),
+        category: form.category,
         coverImageUrl: coverImage,
       });
       alert('등록되었습니다.');
@@ -104,6 +107,21 @@ function BookCreatePage() {
               className={errors.author ? 'input-error' : ''}
             />
             {errors.author && <div className="error-msg">{errors.author}</div>}
+          </div>
+
+          <div className="form-group">
+            <label>
+              카테고리<span className="required">*</span>
+            </label>
+            <select
+              name="category"
+              value={form.category}
+              onChange={handleChange}
+            >
+              {CATEGORIES.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
           </div>
 
           <div className="form-group">

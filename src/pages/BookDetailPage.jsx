@@ -76,6 +76,9 @@ function BookDetailPage() {
           )}
         </div>
         <div>
+          {book.category && (
+            <div className="category-badge category-badge-lg">{book.category}</div>
+          )}
           <h1 className="detail-title">{book.title}</h1>
           <p className="detail-author">{book.author} 著</p>
           <p className="detail-dates">
