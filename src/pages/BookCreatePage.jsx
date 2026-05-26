@@ -68,7 +68,7 @@ function BookCreatePage() {
   return (
     <div className="page">
       <div className="page-head">
-        <Link to="/" className="back-btn">← 목록으로</Link>
+        <Link to="/books" className="back-btn">← 목록으로</Link>
         <h1 style={{ fontSize: 20 }}>신규 도서 등록</h1>
       </div>
 
@@ -164,7 +164,7 @@ function BookCreatePage() {
           </div>
 
           <div className="form-actions">
-            <button className="btn" onClick={() => navigate('/')} disabled={submitting}>
+            <button className="btn" onClick={() => navigate('/books')} disabled={submitting}>
               취소
             </button>
             <button className="btn btn-primary" onClick={handleSubmit} disabled={submitting}>

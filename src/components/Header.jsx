@@ -7,7 +7,8 @@ function Header() {
         <Link to="/" className="logo">도서 관리</Link>
         <nav>
           <Link to="/">홈</Link>
-          <Link to="/">도서 목록</Link>
+          {/* 도서 목록 링크를 /books 로 변경 */}
+          <Link to="/books">도서 목록</Link>
         </nav>
       </div>
     </header>

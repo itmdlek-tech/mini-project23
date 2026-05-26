@@ -30,7 +30,7 @@ function BookDetailPage() {
     try {
       await deleteBook(id);
       alert('삭제되었습니다.');
-      navigate('/');
+      navigate('/books');
     } catch (err) {
       alert(`삭제 실패: ${err.message}`);
     }
@@ -56,7 +56,7 @@ function BookDetailPage() {
   return (
     <div className="page">
       <div className="page-head">
-        <Link to="/" className="back-btn">← 목록으로</Link>
+        <Link to="/books" className="back-btn">← 목록으로</Link>
         <div className="btn-group">
           <button className="btn" onClick={() => navigate(`/books/${id}/edit`)}>
             수정
