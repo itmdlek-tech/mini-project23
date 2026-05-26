@@ -1,48 +1,28 @@
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-// ============================================
-// Mock 데이터 — 2일차 M3에서 fetch로 교체 예정
-// ============================================
-const mockBooks = [
-  {
-    id: 1,
-    title: '별빛 아래의 서점',
-    author: '홍길동',
-    coverImageUrl: '',
-    createdAt: '2026-05-10T09:00:00.000Z',
-  },
-  {
-    id: 2,
-    title: '코드와 커피',
-    author: '김개발',
-    coverImageUrl: '',
-    createdAt: '2026-05-12T14:30:00.000Z',
-  },
-  {
-    id: 3,
-    title: '고양이의 산책길',
-    author: '이작가',
-    coverImageUrl: '',
-    createdAt: '2026-05-14T18:00:00.000Z',
-  },
-  {
-    id: 4,
-    title: '새벽 세 시의 편지',
-    author: '박미소',
-    coverImageUrl: '',
-    createdAt: '2026-05-18T22:15:00.000Z',
-  },
-  {
-    id: 5,
-    title: '바다를 건넌 우체부',
-    author: '최바람',
-    coverImageUrl: '',
-    createdAt: '2026-05-20T08:45:00.000Z',
-  },
-];
+import { getBooks } from '../api/books';
 
 function BookListPage() {
   const navigate = useNavigate();
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        setLoading(true);
+        const data = await getBooks();
+        setBooks(data);
+        setError('');
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBooks();
+  }, []);
 
   return (
     <div className="page">
@@ -53,23 +33,40 @@ function BookListPage() {
         </button>
       </div>
 
-      <div className="book-grid">
-        {mockBooks.map((book) => (
-          <Link to={`/books/${book.id}`} key={book.id} className="book-card">
-            <div className="book-cover">
-              {book.coverImageUrl ? (
-                <img src={book.coverImageUrl} alt={book.title} />
-              ) : (
-                <span>표지 없음<br />(생성 전)</span>
-              )}
-            </div>
-            <div className="book-title">{book.title}</div>
-            <div className="book-meta">
-              {book.author} · {new Date(book.createdAt).toLocaleDateString('ko-KR')}
-            </div>
-          </Link>
-        ))}
-      </div>
+      {loading && <div style={{ padding: 40, textAlign: 'center', color: '#888' }}>불러오는 중...</div>}
+
+      {error && (
+        <div style={{ padding: 16, background: '#fee', color: '#c0392b', borderRadius: 4, marginBottom: 16 }}>
+          {error}
+          <div style={{ fontSize: 12, marginTop: 4, color: '#888' }}>
+            json-server가 실행 중인지 확인해주세요 (npx json-server@0.17.4 --watch db.json --port 3000)
+          </div>
+        </div>
+      )}
+
+      {!loading && !error && books.length === 0 && (
+        <div style={{ padding: 40, textAlign: 'center', color: '#888' }}>등록된 도서가 없습니다.</div>
+      )}
+
+      {!loading && !error && books.length > 0 && (
+        <div className="book-grid">
+          {books.map((book) => (
+            <Link to={`/books/${book.id}`} key={book.id} className="book-card">
+              <div className="book-cover">
+                {book.coverImageUrl ? (
+                  <img src={book.coverImageUrl} alt={book.title} />
+                ) : (
+                  <span>표지 없음<br />(생성 전)</span>
+                )}
+              </div>
+              <div className="book-title">{book.title}</div>
+              <div className="book-meta">
+                {book.author} · {new Date(book.createdAt).toLocaleDateString('ko-KR')}
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

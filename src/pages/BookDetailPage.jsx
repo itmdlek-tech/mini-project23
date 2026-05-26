@@ -1,29 +1,57 @@
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-
-// ============================================
-// Mock 데이터 — 2일차 M3에서 GET /books/:id로 교체 예정
-// ============================================
-const mockBook = {
-  id: 1,
-  title: '별빛 아래의 서점',
-  author: '홍길동',
-  content:
-    '작은 마을의 오래된 서점을 운영하는 주인의 1년을 담은 따뜻한 에세이. 매일 찾아오는 손님들과의 짧은 대화 속에서 발견하는 일상의 위로를 그린다.',
-  coverImageUrl: '',
-  createdAt: '2026-05-10T09:00:00.000Z',
-  updatedAt: '2026-05-10T09:00:00.000Z',
-};
+import { getBook, deleteBook } from '../api/books';
 
 function BookDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const book = mockBook; // 1일차는 항상 같은 데이터 반환
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const handleDelete = () => {
-    if (window.confirm('정말 삭제하시겠습니까?')) {
-      alert('삭제 기능은 2일차 미션 (M4)에서 구현됩니다');
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        setLoading(true);
+        const data = await getBook(id);
+        setBook(data);
+        setError('');
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBook();
+  }, [id]);
+
+  const handleDelete = async () => {
+    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+    try {
+      await deleteBook(id);
+      alert('삭제되었습니다.');
+      navigate('/');
+    } catch (err) {
+      alert(`삭제 실패: ${err.message}`);
     }
   };
+
+  if (loading) {
+    return <div className="page" style={{ padding: 40, textAlign: 'center', color: '#888' }}>불러오는 중...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="page">
+        <div style={{ padding: 16, background: '#fee', color: '#c0392b', borderRadius: 4 }}>
+          {error}
+        </div>
+        <Link to="/" className="back-btn" style={{ marginTop: 16, display: 'inline-block' }}>← 목록으로</Link>
+      </div>
+    );
+  }
+
+  if (!book) return null;
 
   return (
     <div className="page">

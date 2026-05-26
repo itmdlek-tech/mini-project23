@@ -1,38 +1,49 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { createBook } from '../api/books';
 
 function BookCreatePage() {
   const navigate = useNavigate();
 
-  // 폼 입력 상태
   const [form, setForm] = useState({
     title: '',
     author: '',
     content: '',
   });
 
-  // AI 표지 생성 관련 상태
   const [apiKey, setApiKey] = useState('');
   const [quality, setQuality] = useState('MEDIUM');
   const [coverImage, setCoverImage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleGenerate = () => {
-    // 3일차 M5에서 실제 OpenAI API 호출 구현 예정
     alert('AI 표지 생성은 3일차 미션 (M5)에서 구현됩니다');
   };
 
-  const handleSubmit = () => {
-    // 2일차 M4에서 실제 POST /books 호출 구현 예정
+  const handleSubmit = async () => {
     if (!form.title.trim() || !form.author.trim() || !form.content.trim()) {
       alert('모든 필수 항목을 입력해주세요');
       return;
     }
-    console.log('저장할 데이터:', { ...form, coverImageUrl: coverImage });
-    alert('저장 기능은 2일차 미션 (M4)에서 구현됩니다');
+    try {
+      setSubmitting(true);
+      const created = await createBook({
+        title: form.title.trim(),
+        author: form.author.trim(),
+        content: form.content.trim(),
+        coverImageUrl: coverImage,
+      });
+      alert('등록되었습니다.');
+      navigate(`/books/${created.id}`);
+    } catch (err) {
+      alert(`등록 실패: ${err.message}`);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -43,7 +54,6 @@ function BookCreatePage() {
       </div>
 
       <div className="form-layout">
-        {/* LEFT: Form */}
         <div>
           <div className="form-group">
             <label>
@@ -123,16 +133,15 @@ function BookCreatePage() {
           </div>
 
           <div className="form-actions">
-            <button className="btn" onClick={() => navigate('/')}>
+            <button className="btn" onClick={() => navigate('/')} disabled={submitting}>
               취소
             </button>
-            <button className="btn btn-primary" onClick={handleSubmit}>
-              저장
+            <button className="btn btn-primary" onClick={handleSubmit} disabled={submitting}>
+              {submitting ? '저장 중...' : '저장'}
             </button>
           </div>
         </div>
 
-        {/* RIGHT: Cover Preview */}
         <div className="cover-preview-panel">
           <div className="cover-preview-label">표지 미리보기</div>
           <div className="cover-preview">
