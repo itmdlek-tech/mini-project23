@@ -10,6 +10,9 @@ function BookListPage() {
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('전체');
+  
+  // 뷰 모드 상태 추가 ('grid' 또는 'list')
+  const [viewMode, setViewMode] = useState('grid');
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -63,6 +66,22 @@ function BookListPage() {
               <option key={c} value={c}>{c}</option>
             ))}
           </select>
+
+          {/* 뷰 모드 토글 버튼 추가 */}
+          <div className="view-toggle">
+            <button
+              className={viewMode === 'grid' ? 'active' : ''}
+              onClick={() => setViewMode('grid')}
+            >
+              ⊞ 
+            </button>
+            <button
+              className={viewMode === 'list' ? 'active' : ''}
+              onClick={() => setViewMode('list')}
+            >
+              ≣ 
+            </button>
+          </div>
         </div>
       )}
 
@@ -86,7 +105,8 @@ function BookListPage() {
       )}
 
       {!loading && !error && filteredBooks.length > 0 && (
-        <div className="book-grid">
+        /* viewMode 상태에 따라 클래스명 변경 */
+        <div className={viewMode === 'grid' ? 'book-grid' : 'book-list-view'}>
           {filteredBooks.map((book) => (
             <Link to={`/books/${book.id}`} key={book.id} className="book-card">
               <div className="book-cover">
@@ -96,13 +116,18 @@ function BookListPage() {
                   <span>표지 없음<br />(생성 전)</span>
                 )}
               </div>
-              {book.category && (
-                <div className="category-badge">{book.category}</div>
-              )}
-              <div className="book-title">{book.title}</div>
-              <div className="book-meta">
-                {book.author} · {new Date(book.createdAt).toLocaleDateString('ko-KR')}
+              
+              {/* 텍스트 영역을 묶어주는 div 추가 (리스트 뷰에서 레이아웃을 잡기 위함) */}
+              <div className="book-info">
+                {book.category && (
+                  <div className="category-badge">{book.category}</div>
+                )}
+                <div className="book-title">{book.title}</div>
+                <div className="book-meta">
+                  {book.author} · {new Date(book.createdAt).toLocaleDateString('ko-KR')}
+                </div>
               </div>
+              
             </Link>
           ))}
         </div>

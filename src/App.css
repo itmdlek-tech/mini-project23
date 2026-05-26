@@ -560,3 +560,72 @@ input, textarea, select {
   margin-top: 4px;
   font-weight: 500;
 }
+
+/* =================
+   View Toggle Buttons
+   ================= */
+.view-toggle {
+  display: flex;
+  border: 1px solid #c4c4c4;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-left: auto; /* 우측으로 밀어주기 */
+}
+
+.view-toggle button {
+  border: none;
+  background: #ffffff;
+  padding: 8px 14px;
+  font-size: 13px;
+  color: #888;
+  cursor: pointer;
+  border-radius: 0;
+  transition: all 0.2s;
+}
+
+.view-toggle button.active {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+.view-toggle button:not(:last-child) {
+  border-right: 1px solid #c4c4c4;
+}
+
+/* =================
+   Book List View (목록형)
+   ================= */
+.book-list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 목록형일 때의 카드 스타일 덮어쓰기 */
+.book-list-view .book-card {
+  display: flex; /* 좌우 배치를 위해 flex 적용 */
+  align-items: center;
+  gap: 24px;
+  padding: 16px;
+}
+
+/* 목록형일 때 표지 크기 고정 */
+.book-list-view .book-cover {
+  width: 80px;
+  min-width: 80px;
+  height: 120px;
+  margin-bottom: 0;
+}
+
+/* 목록형일 때 텍스트 영역 */
+.book-list-view .book-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1; /* 남은 공간 모두 차지 */
+}
+
+.book-list-view .book-title {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
