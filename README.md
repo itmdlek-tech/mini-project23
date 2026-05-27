@@ -25,9 +25,9 @@
 
 | 일자 | 단계 | 핵심 작업 | 상태 |
 |---|---|---|---|
-| 1일차 | M1·M2 | 기획·설계, Vite 프로젝트 세팅, Mock UI | ✅ 완료 |
-| 2일차 | M3·M4 | json-server CRUD 연동, 폼 유효성, 검색·필터, 카테고리 | ✅ 완료 |
-| 3일차 | M5·M6 | OpenAI 표지 생성, 스타일 선택, 레이아웃 개선 | ✅ 완료 |
+| 1일차 | M1·M2 | 기획·설계, Vite 프로젝트 세팅, Mock UI | 완료 |
+| 2일차 | M3·M4 | json-server CRUD 연동, 폼 유효성, 검색·필터, 카테고리 | 완료 |
+| 3일차 | M5·M6 | OpenAI 표지 생성, 스타일 선택, 레이아웃 개선 | 완료 |
 
 ### 최종 산출물 (3일차 제출)
 - `AI_23조.zip` — 전체 소스 코드 (`node_modules/` 제외)
@@ -52,7 +52,7 @@
 
 ## 진행 상황
 
-### 1일차 완료 (M1·M2)
+### 1일차 (M1·M2)
 - [x] **M1: 기획·설계** — 데이터 모델, API 명세, 폴더 구조, UI 스케치
 - [x] Vite + React 프로젝트 생성 (`my-app/`)
 - [x] `react-router-dom` 설치 및 라우팅 구성
@@ -62,7 +62,7 @@
 - [x] 전체 스타일 (`App.css`)
 - [x] `.gitignore` 설정
 
-### 2일차 완료 (M3·M4)
+### 2일차 (M3·M4)
 - [x] **`src/api/books.js`** — fetch 기반 CRUD 함수 5개 (`getBooks`, `getBook`, `createBook`, `updateBook`, `deleteBook`)
 - [x] **목록 페이지** — `useEffect` + `getBooks()` 연동
 - [x] **상세 페이지** — `useParams` + `getBook(id)` 연동
@@ -75,7 +75,7 @@
 - [x] **[추가 기능] 카테고리** — 등록·수정 폼에서 9종 카테고리 선택, 목록 필터 + 카드 배지, 상세 페이지 배지
 - [x] **[추가 기능] 홈 화면** — `/` 경로에 별도 홈페이지 추가
 
-### 3일차 완료 (M5·M6)
+### 3일차 (M5·M6)
 - [x] `src/api/openai.js` — OpenAI Images API 호출 함수 연동 완료
 - [x] AI 표지 생성 → `b64_json` → Data URL → PATCH 저장 완료
 - [x] 퀄리티 토글 (LOW / MEDIUM / HIGH) 및 에러 처리 적용
@@ -105,7 +105,9 @@ npm install
 cd my-app
 npx json-server@0.17.4 --watch db.json --port 3000
 # 확인: http://localhost:3000/books
+```
 
+```bash
 # 터미널 2 — Vite (React)
 cd my-app
 npm run dev
@@ -182,7 +184,7 @@ Content-Type: application/json
 
 ```
 my-app/
-├── db.json                       # json-server 시드 데이터 (8권)
+├── db.json                       # json-server 시드 데이터 (11권)
 ├── package.json
 ├── vite.config.js
 ├── README.md
@@ -194,7 +196,7 @@ my-app/
     ├── constants.js              # 카테고리 등 상수
     ├── api/
     │   ├── books.js              # json-server CRUD 함수
-    │   └── openai.js             # (3일차) OpenAI 호출 함수
+    │   └── openai.js             # OpenAI 호출 함수
     ├── components/
     │   └── Header.jsx
     └── pages/
