@@ -450,6 +450,22 @@ input, textarea, select {
   color: #c4c4c4;
 }
 
+.cover-preview .icon.spinning {
+  color: #d4a017;
+  animation: spin 1.6s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.btn:disabled,
+.btn-ai:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .preview-meta {
   font-size: 11px;
   color: #888;

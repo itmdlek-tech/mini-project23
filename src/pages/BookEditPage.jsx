@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { getBook, updateBook } from '../api/books';
+import { generateBookCover } from '../api/openai';
 import { CATEGORIES, DEFAULT_CATEGORY } from '../constants';
 
 function BookEditPage() {
@@ -9,7 +10,7 @@ function BookEditPage() {
 
   const [form, setForm] = useState({ title: '', author: '', content: '', category: DEFAULT_CATEGORY });
   const [errors, setErrors] = useState({}); // 유효성 검사 에러 상태
-  
+
   const [apiKey, setApiKey] = useState('');
   const [quality, setQuality] = useState('MEDIUM');
   const [coverImage, setCoverImage] = useState('');
@@ -17,6 +18,7 @@ function BookEditPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [generating, setGenerating] = useState(false);
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -47,8 +49,33 @@ function BookEditPage() {
     }
   };
 
-  const handleGenerate = () => {
-    alert('AI 표지 재생성은 3일차 미션 (M5)에서 구현됩니다');
+  const handleGenerate = async () => {
+    if (!apiKey.trim()) {
+      alert('OpenAI API Key를 입력해주세요.');
+      return;
+    }
+    if (!form.title.trim() || !form.content.trim()) {
+      alert('제목과 내용을 입력한 후 생성해주세요.');
+      return;
+    }
+    try {
+      setGenerating(true);
+      const dataUrl = await generateBookCover({
+        apiKey,
+        book: {
+          title: form.title.trim(),
+          author: form.author.trim() || '저자 미상',
+          category: form.category,
+          content: form.content.trim(),
+        },
+        quality,
+      });
+      setCoverImage(dataUrl);
+    } catch (err) {
+      alert(`표지 재생성 실패: ${err.message}`);
+    } finally {
+      setGenerating(false);
+    }
   };
 
   // 폼 유효성 검사 함수
@@ -201,16 +228,16 @@ function BookEditPage() {
               </div>
             </div>
 
-            <button className="btn btn-ai" onClick={handleGenerate}>
-              AI 표지 재생성하기
+            <button className="btn btn-ai" onClick={handleGenerate} disabled={generating || submitting}>
+              {generating ? '생성 중... (수십초 소요)' : 'AI 표지 재생성하기'}
             </button>
           </div>
 
           <div className="form-actions">
-            <button className="btn" onClick={() => navigate(`/books/${id}`)} disabled={submitting}>
+            <button className="btn" onClick={() => navigate(`/books/${id}`)} disabled={submitting || generating}>
               취소
             </button>
-            <button className="btn btn-primary" onClick={handleSubmit} disabled={submitting}>
+            <button className="btn btn-primary" onClick={handleSubmit} disabled={submitting || generating}>
               {submitting ? '저장 중...' : '저장'}
             </button>
           </div>
@@ -219,7 +246,12 @@ function BookEditPage() {
         <div className="cover-preview-panel">
           <div className="cover-preview-label">표지 미리보기</div>
           <div className="cover-preview">
-            {coverImage ? (
+            {generating ? (
+              <>
+                <div className="icon spinning">✦</div>
+                <div>AI가 표지를<br />생성하고 있어요...</div>
+              </>
+            ) : coverImage ? (
               <img src={coverImage} alt="표지" />
             ) : (
               <>
