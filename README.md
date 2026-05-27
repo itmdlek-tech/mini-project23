@@ -4,6 +4,9 @@
 
 별도 백엔드 없이 React SPA가 `json-server`(Mock API)와 OpenAI Images API를 직접 호출하여 도서를 관리하는 시스템. 도서 등록 시 입력한 제목·내용을 프롬프트로 AI 표지를 생성한다.
 
+<img width="1470" height="1374" alt="image" src="https://github.com/user-attachments/assets/98edc3dd-62e2-4294-96b1-69507c6272b1" />
+
+
 ---
 
 ## 조 정보
@@ -72,7 +75,7 @@
 - [x] **[추가 기능] 카테고리** — 등록·수정 폼에서 9종 카테고리 선택, 목록 필터 + 카드 배지, 상세 페이지 배지
 - [x] **[추가 기능] 홈 화면** — `/` 경로에 별도 홈페이지 추가
 
-### 3일차 예정 (M5·M6)
+### 3일차 완료 (M5·M6)
 - [ ] `src/api/openai.js` — OpenAI Images API 호출 함수
 - [ ] AI 표지 생성 → `b64_json` → Data URL → PATCH 저장
 - [ ] 퀄리티 토글 (LOW / MEDIUM / HIGH)
@@ -199,6 +202,16 @@ my-app/
 
 ---
 
+## ✨ 주요 기능
+
+- 📚 도서 CRUD 기능
+- 🔍 제목/작가 검색 기능
+- 🏷 카테고리 필터 기능
+- 🖼 AI 도서 표지 생성
+- 📱 Grid / List 뷰 전환
+- ✅ 폼 유효성 검사
+  
+---
 ## 주요 기능 상세
 
 ### 검색 · 필터 (목록 페이지)
