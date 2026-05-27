@@ -17,6 +17,7 @@ function BookCreatePage() {
   const [errors, setErrors] = useState({}); // 유효성 검사 에러 상태 추가
   const [apiKey, setApiKey] = useState('');
   const [quality, setQuality] = useState('MEDIUM');
+  const [coverStyle, setCoverStyle] = useState('DEFAULT'); // 스타일 상태 추가
   const [coverImage, setCoverImage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [generating, setGenerating] = useState(false);
@@ -49,6 +50,7 @@ function BookCreatePage() {
           content: form.content.trim(),
         },
         quality,
+        style: coverStyle,
       });
       setCoverImage(dataUrl);
     } catch (err) {
@@ -201,6 +203,29 @@ function BookCreatePage() {
                 ))}
               </div>
               <div className="form-help">HIGH일수록 품질 ↑ 비용 · 시간 ↑</div>
+            </div>
+
+            <div className="form-group">
+              <label style={{ fontSize: 12 }}>스타일 (Style)</label>
+              <div className="quality-row" style={{ flexWrap: 'wrap' }}>
+                {[
+                  { id: 'DEFAULT', label: '기본' },
+                  { id: 'WATERCOLOR', label: '수채화' },
+                  { id: 'ILLUSTRATION', label: '일러스트' },
+                  { id: '3D', label: '3D' },
+                  { id: 'REALISTIC', label: '실사' },
+                ].map((s) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    className={`quality-btn ${coverStyle === s.id ? 'active' : ''}`}
+                    onClick={() => setCoverStyle(s.id)}
+                    style={{ minWidth: '60px' }}
+                  >
+                    {s.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <button className="btn btn-ai" onClick={handleGenerate} disabled={generating || submitting}>

@@ -6,30 +6,40 @@ const QUALITY_OPTIONS = {
   HIGH: { size: '1024x1536', quality: 'high' },
 };
 
-function buildPrompt({ title, author, category, content }) {
+const STYLE_PROMPTS = {
+  DEFAULT: '',
+  WATERCOLOR: 'Art style: Watercolor painting, soft and artistic.',
+  ILLUSTRATION: 'Art style: Modern digital illustration, vibrant and stylized.',
+  '3D': 'Art style: 3D render, highly detailed, cinematic lighting.',
+  REALISTIC: 'Art style: Hyper-realistic photograph, photorealistic, 8k.'
+};
+
+function buildPrompt({ title, author, category, content }, style = 'DEFAULT') {
+  const stylePrompt = STYLE_PROMPTS[style] || '';
   return [
     `A professional published book cover design — polished, market-ready, bestseller quality.`,
     `Display the title text prominently on the cover: "${title}".`,
     `Display the author name on the cover: "${author}".`,
     `Genre: ${category}.`,
     `Book theme and atmosphere: ${content}`,
+    stylePrompt,
     `Design approach: let the book's specific theme and mood drive the entire visual design —`,
     `imagery, color palette, typography style, and composition should be uniquely suited to this book.`,
     `Avoid one-size-fits-all templates; each cover should have its own visual identity`,
     `while maintaining high-end commercial publishing quality.`,
     `Format: vertical book cover (portrait orientation), polished and professional.`,
     `The title and author must be clearly readable on the cover.`,
-  ].join(' ');
+  ].filter(Boolean).join(' ');
 }
 
-export async function generateBookCover({ apiKey, book, quality = 'MEDIUM' }) {
+export async function generateBookCover({ apiKey, book, quality = 'MEDIUM', style = 'DEFAULT' }) {
   if (!apiKey?.trim()) throw new Error('OpenAI API Key를 입력해주세요.');
   if (!book?.title?.trim() || !book?.content?.trim()) {
     throw new Error('제목과 내용을 입력한 후 생성해주세요.');
   }
 
   const { size, quality: q } = QUALITY_OPTIONS[quality] || QUALITY_OPTIONS.MEDIUM;
-  const prompt = buildPrompt(book);
+  const prompt = buildPrompt(book, style);
 
   try {
     const res = await fetch(ENDPOINT, {

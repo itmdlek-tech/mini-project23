@@ -13,6 +13,7 @@ function BookEditPage() {
 
   const [apiKey, setApiKey] = useState('');
   const [quality, setQuality] = useState('MEDIUM');
+  const [coverStyle, setCoverStyle] = useState('DEFAULT'); // 스타일 상태 추가
   const [coverImage, setCoverImage] = useState('');
 
   const [loading, setLoading] = useState(true);
@@ -69,6 +70,7 @@ function BookEditPage() {
           content: form.content.trim(),
         },
         quality,
+        style: coverStyle,
       });
       setCoverImage(dataUrl);
     } catch (err) {
@@ -232,6 +234,29 @@ function BookEditPage() {
                     onClick={() => setQuality(q)}
                   >
                     {q}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label style={{ fontSize: 12 }}>스타일 (Style)</label>
+              <div className="quality-row" style={{ flexWrap: 'wrap' }}>
+                {[
+                  { id: 'DEFAULT', label: '기본' },
+                  { id: 'WATERCOLOR', label: '수채화' },
+                  { id: 'ILLUSTRATION', label: '일러스트' },
+                  { id: '3D', label: '3D' },
+                  { id: 'REALISTIC', label: '실사' },
+                ].map((s) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    className={`quality-btn ${coverStyle === s.id ? 'active' : ''}`}
+                    onClick={() => setCoverStyle(s.id)}
+                    style={{ minWidth: '60px' }}
+                  >
+                    {s.label}
                   </button>
                 ))}
               </div>
