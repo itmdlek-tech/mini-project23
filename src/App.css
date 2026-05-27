@@ -1,4 +1,26 @@
 /* =================
+   Color Palette (Pastel Theme)
+   ================= */
+:root {
+  --bg: #faf3eb;
+  --surface: #ffffff;
+  --surface-alt: #fdf8f0;
+  --border: #ece2d2;
+  --border-soft: #f1ead9;
+
+  --text: #3a342c;
+  --text-muted: #8c8175;
+  --text-soft: #aaa295;
+
+  --accent: #b8866c;        /* dusty terracotta */
+  --accent-dark: #8e5f48;
+  --accent-light: #efddc8;
+
+  --danger: #c4747a;
+  --danger-soft: #fbe6e8;
+}
+
+/* =================
    Global Reset & Base
    ================= */
 * {
@@ -9,8 +31,8 @@
 
 body {
   font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #f7f7f5;
-  color: #1a1a1a;
+  background: var(--bg);
+  color: var(--text);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
@@ -39,8 +61,8 @@ input, textarea, select {
    Header
    ================= */
 .app-header {
-  background: #ffffff;
-  border-bottom: 1px solid #e4e4e0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
   padding: 16px 0;
   margin-bottom: 32px;
 }
@@ -55,7 +77,7 @@ input, textarea, select {
   font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.3px;
-  color: #1a1a1a;
+  color: var(--accent-dark);
 }
 
 .app-header nav {
@@ -65,12 +87,12 @@ input, textarea, select {
 
 .app-header nav a {
   font-size: 14px;
-  color: #555;
+  color: var(--text-muted);
   font-weight: 500;
 }
 
 .app-header nav a:hover {
-  color: #1a1a1a;
+  color: var(--accent);
 }
 
 /* =================
@@ -86,23 +108,24 @@ input, textarea, select {
   align-items: center;
   margin-bottom: 24px;
   padding-bottom: 14px;
-  border-bottom: 1px dashed #d4d4d4;
+  border-bottom: 1px dashed var(--border);
 }
 
 .page-head h1 {
   font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.4px;
+  color: var(--text);
 }
 
 .back-btn {
   font-size: 13px;
-  color: #555;
+  color: var(--text-muted);
   font-weight: 500;
 }
 
 .back-btn:hover {
-  color: #1a1a1a;
+  color: var(--accent);
 }
 
 /* =================
@@ -113,35 +136,42 @@ input, textarea, select {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  border: 1px solid #1a1a1a;
+  border: 1px solid var(--accent);
   padding: 8px 16px;
-  background: #ffffff;
+  background: var(--surface);
   font-size: 13px;
   font-weight: 500;
   border-radius: 4px;
-  color: #1a1a1a;
-  transition: opacity 0.15s;
+  color: var(--accent-dark);
+  transition: opacity 0.15s, background 0.15s, color 0.15s;
 }
 
 .btn:hover {
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .btn-primary {
-  background: #1a1a1a;
+  background: var(--accent);
   color: #ffffff;
+  border-color: var(--accent);
+}
+
+.btn-primary:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+  opacity: 1;
 }
 
 .btn-danger {
-  background: #ffffff;
-  color: #c0392b;
-  border-color: #c0392b;
+  background: var(--surface);
+  color: var(--danger);
+  border-color: var(--danger);
 }
 
 .btn-ai {
-  background: #1a1a1a;
-  color: #f7f7f5;
-  border-color: #1a1a1a;
+  background: var(--accent-dark);
+  color: #ffffff;
+  border-color: var(--accent-dark);
   width: 100%;
 }
 
@@ -173,28 +203,29 @@ input, textarea, select {
 
 .book-card {
   display: block;
-  border: 1px solid #d4d4d4;
-  border-radius: 4px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
   padding: 12px;
-  background: #ffffff;
-  transition: border-color 0.15s, transform 0.15s;
+  background: var(--surface);
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
 }
 
 .book-card:hover {
-  border-color: #1a1a1a;
+  border-color: var(--accent);
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(184, 134, 108, 0.12);
 }
 
 .book-cover {
   aspect-ratio: 2/3;
-  background: #f0eee8;
-  border: 1px dashed #b4b4b4;
+  background: var(--accent-light);
+  border: 1px dashed var(--border);
   border-radius: 3px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #999;
+  color: var(--text-soft);
   font-size: 11px;
   text-align: center;
   padding: 8px;
@@ -213,12 +244,12 @@ input, textarea, select {
   margin-bottom: 4px;
   line-height: 1.35;
   letter-spacing: -0.2px;
-  color: #1a1a1a;
+  color: var(--text);
 }
 
 .book-meta {
   font-size: 11px;
-  color: #777;
+  color: var(--text-muted);
 }
 
 /* =================
@@ -232,13 +263,13 @@ input, textarea, select {
 
 .detail-cover {
   aspect-ratio: 2/3;
-  background: #f0eee8;
-  border: 1px dashed #b4b4b4;
-  border-radius: 4px;
+  background: var(--accent-light);
+  border: 1px dashed var(--border);
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #888;
+  color: var(--text-muted);
   font-size: 13px;
   text-align: center;
   padding: 16px;
@@ -256,30 +287,31 @@ input, textarea, select {
   font-weight: 700;
   margin-bottom: 6px;
   letter-spacing: -0.4px;
+  color: var(--text);
 }
 
 .detail-author {
   font-size: 15px;
-  color: #555;
+  color: var(--text-muted);
   margin-bottom: 14px;
 }
 
 .detail-dates {
   font-size: 12px;
-  color: #888;
+  color: var(--text-soft);
   margin-bottom: 20px;
   padding-bottom: 18px;
-  border-bottom: 1px dashed #d4d4d4;
+  border-bottom: 1px dashed var(--border);
 }
 
 .detail-content {
   font-size: 14px;
-  color: #2a2a2a;
+  color: var(--text);
   line-height: 1.8;
-  background: #faf9f5;
+  background: var(--surface-alt);
   padding: 16px 18px;
-  border-left: 3px solid #1a1a1a;
-  border-radius: 0 3px 3px 0;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
   white-space: pre-wrap;
 }
 
@@ -302,11 +334,11 @@ input, textarea, select {
   font-size: 13px;
   font-weight: 600;
   margin-bottom: 6px;
-  color: #1a1a1a;
+  color: var(--text);
 }
 
 .form-group label .required {
-  color: #c0392b;
+  color: var(--danger);
   margin-left: 2px;
 }
 
@@ -314,18 +346,18 @@ input, textarea, select {
 .form-group textarea,
 .form-group select {
   width: 100%;
-  border: 1px solid #c4c4c4;
+  border: 1px solid var(--border);
   padding: 10px 12px;
   font-size: 13px;
-  background: #ffffff;
-  color: #1a1a1a;
+  background: var(--surface);
+  color: var(--text);
   border-radius: 4px;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #1a1a1a;
+  border-color: var(--accent);
 }
 
 .form-group textarea {
@@ -335,7 +367,7 @@ input, textarea, select {
 
 .form-help {
   font-size: 11px;
-  color: #888;
+  color: var(--text-soft);
   margin-top: 4px;
 }
 
@@ -345,7 +377,7 @@ input, textarea, select {
   justify-content: flex-end;
   margin-top: 32px;
   padding-top: 20px;
-  border-top: 1px dashed #d4d4d4;
+  border-top: 1px dashed var(--border);
 }
 
 /* =================
@@ -354,16 +386,16 @@ input, textarea, select {
 .ai-section {
   margin-top: 24px;
   padding: 18px;
-  border: 1px solid #1a1a1a;
-  border-radius: 4px;
-  background: #faf9f5;
+  border: 1px solid var(--accent-light);
+  border-radius: 6px;
+  background: var(--surface-alt);
 }
 
 .ai-section-title {
   font-size: 14px;
   font-weight: 700;
   margin-bottom: 4px;
-  color: #1a1a1a;
+  color: var(--accent-dark);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -376,7 +408,7 @@ input, textarea, select {
 
 .ai-section-desc {
   font-size: 11px;
-  color: #777;
+  color: var(--text-muted);
   margin-bottom: 14px;
 }
 
@@ -387,19 +419,19 @@ input, textarea, select {
 
 .quality-btn {
   flex: 1;
-  border: 1px solid #c4c4c4;
-  background: #ffffff;
+  border: 1px solid var(--border);
+  background: var(--surface);
   padding: 8px 12px;
   font-size: 12px;
   font-weight: 500;
   text-align: center;
   border-radius: 4px;
-  color: #555;
+  color: var(--text-muted);
 }
 
 .quality-btn.active {
-  border-color: #1a1a1a;
-  background: #1a1a1a;
+  border-color: var(--accent);
+  background: var(--accent);
   color: #ffffff;
 }
 
@@ -414,7 +446,7 @@ input, textarea, select {
 .cover-preview-label {
   font-size: 11px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--accent-dark);
   margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -452,11 +484,11 @@ input, textarea, select {
 
 .preview-meta {
   font-size: 11px;
-  color: #888;
+  color: var(--text-soft);
   text-align: center;
   margin-top: 6px;
   padding-top: 8px;
-  border-top: 1px dashed #d4d4d4;
+  border-top: 1px dashed var(--border);
 }
 
 @media (max-width: 800px) {
@@ -493,70 +525,81 @@ input, textarea, select {
   flex: 1;
   min-width: 220px;
   max-width: 400px;
-  border: 1px solid #c4c4c4;
+  border: 1px solid var(--border);
   padding: 10px 14px;
   font-size: 14px;
   border-radius: 4px;
-  background: #ffffff;
+  background: var(--surface);
+  color: var(--text);
 }
 
 .search-bar input:focus {
   outline: none;
-  border-color: #1a1a1a;
+  border-color: var(--accent);
 }
 
 .category-filter {
-  border: 1px solid #c4c4c4;
+  border: 1px solid var(--border);
   padding: 10px 28px 10px 14px;
   font-size: 14px;
   border-radius: 4px;
-  background: #ffffff;
+  background: var(--surface);
+  color: var(--text);
   cursor: pointer;
   min-width: 160px;
 }
 
 .category-filter:focus {
   outline: none;
-  border-color: #1a1a1a;
+  border-color: var(--accent);
 }
 
 /* =================
-   Category Badge
+   Category Badge — 카테고리별 파스텔 색상
    ================= */
 .category-badge {
   display: inline-block;
   font-size: 10px;
   font-weight: 600;
-  color: #1a1a1a;
-  background: #f0eee8;
-  border: 1px solid #d4d4d0;
+  color: var(--text);
+  background: var(--accent-light);
+  border: 1px solid transparent;
   padding: 2px 8px;
   border-radius: 10px;
   margin-bottom: 6px;
   letter-spacing: 0.2px;
 }
 
+/* 카테고리별 색상 (data-category 속성으로 매칭) */
+.category-badge[data-category="소설"]        { background: #fbdcdc; color: #9c4848; }
+.category-badge[data-category="에세이"]      { background: #dfeedc; color: #4a7c46; }
+.category-badge[data-category="자기계발"]    { background: #faecc8; color: #946a1a; }
+.category-badge[data-category="인문"]        { background: #e0d8ee; color: #6a559e; }
+.category-badge[data-category="경제경영"]    { background: #d9e3f2; color: #4a6b9c; }
+.category-badge[data-category="과학"]        { background: #d4e8eb; color: #3d7077; }
+.category-badge[data-category="역사"]        { background: #ecd9c1; color: #856237; }
+.category-badge[data-category="어린이/청소년"] { background: #fadbc2; color: #a86038; }
+.category-badge[data-category="기타"]        { background: #e4ddd2; color: #6e6457; }
+
 .category-badge-lg {
   font-size: 12px;
   padding: 4px 12px;
-  border-radius: 12px;
+  border-radius: 14px;
   margin-bottom: 10px;
-  background: #1a1a1a;
-  color: #ffffff;
-  border-color: #1a1a1a;
 }
 
 /* =================
    Form Validation Errors
    ================= */
 .input-error {
-  border-color: #c0392b !important;
+  border-color: var(--danger) !important;
+  background: var(--danger-soft) !important;
 }
 
 .error-msg {
   display: block;
   font-size: 11px;
-  color: #c0392b;
+  color: var(--danger);
   margin-top: 4px;
   font-weight: 500;
 }
@@ -566,30 +609,30 @@ input, textarea, select {
    ================= */
 .view-toggle {
   display: flex;
-  border: 1px solid #c4c4c4;
+  border: 1px solid var(--border);
   border-radius: 4px;
   overflow: hidden;
-  margin-left: auto; /* 우측으로 밀어주기 */
+  margin-left: auto;
 }
 
 .view-toggle button {
   border: none;
-  background: #ffffff;
+  background: var(--surface);
   padding: 8px 14px;
   font-size: 13px;
-  color: #888;
+  color: var(--text-muted);
   cursor: pointer;
   border-radius: 0;
   transition: all 0.2s;
 }
 
 .view-toggle button.active {
-  background: #1a1a1a;
+  background: var(--accent);
   color: #ffffff;
 }
 
 .view-toggle button:not(:last-child) {
-  border-right: 1px solid #c4c4c4;
+  border-right: 1px solid var(--border);
 }
 
 /* =================

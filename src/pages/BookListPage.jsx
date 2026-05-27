@@ -128,7 +128,7 @@ function BookListPage() {
               {/* 텍스트 영역을 묶어주는 div 추가 (리스트 뷰에서 레이아웃을 잡기 위함) */}
               <div className="book-info">
                 {book.category && (
-                  <div className="category-badge">{book.category}</div>
+                  <div className="category-badge" data-category={book.category}>{book.category}</div>
                 )}
                 <div className="book-title">{book.title}</div>
                 <div className="book-meta">
