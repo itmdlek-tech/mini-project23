@@ -78,6 +78,13 @@ function BookEditPage() {
     }
   };
 
+  const handleRemoveCover = () => {
+    if (!coverImage) return;
+    if (window.confirm('정말 표지 이미지를 삭제하시겠습니까?\n(수정 내용을 저장해야 완전히 반영됩니다.)')) {
+      setCoverImage('');
+    }
+  };
+
   // 폼 유효성 검사 함수
   const validateForm = () => {
     const newErrors = {};
@@ -265,6 +272,17 @@ function BookEditPage() {
             )}
           </div>
           <div className="preview-meta">재생성 후 저장 시 표지가 갱신됩니다</div>
+          {coverImage && (
+            <button
+              type="button"
+              className="btn btn-danger"
+              style={{ width: '100%', marginTop: '12px' }}
+              onClick={handleRemoveCover}
+              disabled={generating || submitting}
+            >
+              표지 삭제
+            </button>
+          )}
         </div>
       </div>
     </div>
