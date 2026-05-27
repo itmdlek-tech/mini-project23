@@ -193,13 +193,15 @@ function BookEditPage() {
 
           <div className="ai-section">
             <div className="ai-section-title">
-              AI 표지 재생성
+              AI 표지 {coverImage ? '재생성' : '생성'}
               <span style={{ fontSize: 11, color: '#888', fontWeight: 400, marginLeft: 6 }}>
                 선택
               </span>
             </div>
             <div className="ai-section-desc">
-              현재 표지를 새로 생성합니다. 우측 미리보기에서 결과 확인 후 저장하세요.
+              {coverImage
+                ? '현재 표지를 새로 생성합니다. 우측 미리보기에서 결과 확인 후 저장하세요.'
+                : '새로운 표지를 생성합니다. 우측 미리보기에서 결과 확인 후 저장하세요.'}
             </div>
 
             <div className="form-group">
@@ -229,7 +231,7 @@ function BookEditPage() {
             </div>
 
             <button className="btn btn-ai" onClick={handleGenerate} disabled={generating || submitting}>
-              {generating ? '생성 중... (수십초 소요)' : 'AI 표지 재생성하기'}
+              {generating ? '생성 중... (수십초 소요)' : (coverImage ? 'AI 표지 재생성하기' : 'AI 표지 생성하기')}
             </button>
           </div>
 

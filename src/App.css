@@ -12,12 +12,12 @@
   --text-muted: #8c8175;
   --text-soft: #aaa295;
 
-  --accent: #b8866c;        /* dusty terracotta */
-  --accent-dark: #8e5f48;
-  --accent-light: #efddc8;
+  --accent: #c29580;        /* 조금 더 연한 톤 */
+  --accent-dark: #9e705b;   /* 조금 더 연한 톤 */
+  --accent-light: #fff5e8;
 
   --danger: #c4747a;
-  --danger-soft: #fbe6e8;
+  --danger-soft: #ff0019;
 }
 
 /* =================
@@ -259,6 +259,12 @@ input, textarea, select {
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 32px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  background: var(--surface);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .detail-cover {
@@ -323,6 +329,12 @@ input, textarea, select {
   grid-template-columns: 1fr 300px;
   gap: 36px;
   align-items: start;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  background: var(--surface);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .form-group {
@@ -454,7 +466,7 @@ input, textarea, select {
 
 .cover-preview {
   aspect-ratio: 2/3;
-  background: #f0eee8;
+  background: #f9f8f4;
   border: 1px dashed #b4b4b4;
   border-radius: 4px;
   display: flex;
